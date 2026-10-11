@@ -5,8 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Unzip Project
-      run: unzip -o 插针应用.zip -d .
+    - name: Unzip and Fix Structure
+      run: |
+        unzip -o 插针应用.zip -d .
+        if [ -d "插针应用" ]; then
+          mv 插针应用/* .
+          mv 插针应用/.* . 2>/dev/null || true
+          rmdir 插针应用 || true
+        fi
     - name: set up JDK 17
       uses: actions/setup-java@v3
       with:
